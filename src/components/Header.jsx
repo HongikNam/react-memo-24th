@@ -40,7 +40,7 @@ export default function Header({
         className="bg-white shadow-sm hover:bg-gray-50 shrink-0 font-bold rounded-full"
         onClick={onProfileClick}
       >
-        <img src={Profile} alt='profile' height='80px' width='80px' />
+        <img src={Profile} alt='profile' height='40px' width='40px' />
       </Button>
     </header>
   );
