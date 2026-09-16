@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Button from '../../../../react-memo-24th/src/components/header/Button';
+import Button from '../header/Button';
 import editBtn from '../../assets/icons/edit_w.svg';
 import deleteBtn from '../../assets/icons/delete_w.svg';
 import trashBtn from '../../assets/icons/trash_w.svg';

@@ -1,6 +1,6 @@
 import React from 'react';
-import SearchBar from '../../../react-memo-24th/src/components/header/SearchBar';
-import Button from '../../../react-memo-24th/src/components/header/Button';
+import SearchBar from './header/SearchBar';
+import Button from './header/Button';
 import Profile from '../assets/icons/Profile.svg'
 import addBtn from '../assets/icons/AddMemo.svg'
 
