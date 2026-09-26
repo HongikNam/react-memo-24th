@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "Pretendard", sans-serif;
+    
+    /*컬러*/
+    --color-blue-01 : #E4EDFF;
+    --color-blue-02 : #C5D9FF;
+    --color-blue-03 : #A2C1FF;
+    --color-blue-04 : #5590FF;
+    --color-blue-05 : #0055F5;
+    --color-blue-06 : #0037A3;
+    --color-blue-07 : #001B51;
+    
+    --color-gray-01 : #FAFAFA;
+    --color-gray-02 : #E0EEFF;
+    --color-gray-03 : #A6B7CB;
+    --color-gray-04 : #677B93;
+    --color-gray-05 : #485668;
+    --color-gray-06 : #29313C;
+    --color-gray-07 : #121416;
+    
+    /*타이포그래피*/
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    --text-display-large: 48px;
+    --text-display-large--line-height: 56px;
+    
+    --text-heading-large: 32px;
+    --text-heading-large--line-height: 40px;
+    --text-heading-medium: 24px;
+    --text-heading-medium--line-height: 32px;
+    --text-heading-small: 20px;
+    --text-heading-small--line-height: 28px;
+    
+    --text-body-large: 18px;
+    --text-body-large--line-height: 28px;
+    --text-body-medium: 16px;
+    --text-body-medium--line-height: 24px;
+    --text-body-small: 14px;
+    --text-body-small--line-height: 20px;
+    
+    --text-field-medium: 16px;
+    --text-field-medium--line-height: 24px;
+    
+    --text-action-medium: 18px;
+    --text-action-medium--line-height: 28px;
+    --text-action-small: 16px;
+    --text-action-small--line-height: 24px;
+}
