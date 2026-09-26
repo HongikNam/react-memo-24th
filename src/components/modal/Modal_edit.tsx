@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { Memo, Tag } from '../../types/memo';
+import { getFormattedDate } from '../utility/formatDate'; // 유틸 함수 불러오기
 
 const TAG_COLORS: Record<Exclude<Tag, '전체'>, string> = 
   {  
@@ -74,7 +75,7 @@ export default function MemoEditModal({ isOpen, onClose, onSave, memo }: MemoEdi
       title: title.trim(), 
       content: content.trim(), 
       category, 
-      createdAt: memo?.createdAt ?? new Date().toISOString(), 
+      createdAt: memo?.createdAt ?? getFormattedDate(),
       isFavorite: memo?.isFavorite ?? false, 
     }; 
     onSave(savedMemo); 
@@ -85,7 +86,7 @@ export default function MemoEditModal({ isOpen, onClose, onSave, memo }: MemoEdi
   const currentBgClass = TAG_COLORS[category];
   const currentDate = memo?.createdAt
     ? memo.createdAt
-    : new Date().toISOString().slice(0, 10).replaceAll('-', '.');
+    : getFormattedDate();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

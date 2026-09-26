@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App'; // .js 확장은 제거하거나 .tsx로 인식되도록 작성합니다.
+import App from './App';
+import { BrowserRouter } from 'react-router-dom'; 
 import './index.css';
 import '../src/styles/theme.css'
 
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
-  throw new Error('Failed to find the root element');
+  throw new Error('Root 요소를 찾을 수 없습니다.');
 }
 
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
   );
+}
