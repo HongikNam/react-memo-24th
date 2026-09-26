@@ -1,25 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import Header from './components/Header'
-import MemoGrid from './components/memo/MemoGrid'
-import MemoDetailModal from './components/modal/Modal_detail' 
-import MemoEditModal from './components/modal/Modal_edit' 
-import ModalPopup from './components/modal/Modal_popup' 
+import React, { useState, useEffect } from 'react';
+import Header from './components/Header';
+import MemoGrid from './components/memo/MemoGrid';
+import MemoDetailModal from './components/modal/Modal_detail'; 
+import MemoEditModal from './components/modal/Modal_edit'; 
+import ModalPopup from './components/modal/Modal_popup'; 
+import type { Memo, Tag } from './types/memo';
 
 const STORAGE_KEY = 'memo_app_data'; 
 
+export type PopupType = 'alert' | 'confirm';
+
+export interface PopupConfig {
+  title: string;
+  description?: string;
+  confirmText?: string;
+  cancelText?: string;
+  type?: PopupType;
+  onConfirm: () => void;
+  onCancel?: () => void;
+}
+
 export default function App() {
-  const [memos, setMemos] = useState(() => {
+  const [memos, setMemos] = useState<Memo[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        return JSON.parse(saved) as Memo[];
       } catch (e) {
         console.error('로컬스토리지 데이터를 파싱하지 못했습니다.', e);
       }
     }
     return [
       {
-        id: 1,
+        id: '1',
         title: '이것은 제목입니다',
         content: '이것은 본문입니다 이것은 본문입니다 이것은 본문입니다.',
         category: 'Daily',
@@ -29,13 +42,12 @@ export default function App() {
     ];
   });
 
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedTag, setSelectedTag] = useState('태그 선택')
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedTag, setSelectedTag] = useState<Tag>('전체');
 
-  const [selectedMemo, setSelectedMemo] = useState(null)
-  const [editingMemo, setEditingMemo] = useState(null)
-
-  const [popupConfig, setPopupConfig] = useState(null);
+  const [selectedMemo, setSelectedMemo] = useState<Memo | null>(null);
+  const [editingMemo, setEditingMemo] = useState<Partial<Memo> | null>(null);
+  const [popupConfig, setPopupConfig] = useState<PopupConfig | null>(null);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
@@ -44,7 +56,7 @@ export default function App() {
   const filteredMemos = memos
     .filter((memo) => {
       const matchesTag =
-        selectedTag === '전체' || selectedTag === '태그 선택' || memo.category === selectedTag;
+        selectedTag === '전체' || memo.category === selectedTag;
       const query = searchQuery.toLowerCase();
       const matchesQuery =
         memo.title.toLowerCase().includes(query) ||
@@ -54,33 +66,20 @@ export default function App() {
     })
     .sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0));
 
-  const handleSelectMemo = (id) => {
-    const memo = memos.find((m) => m.id === id)
-    if (memo) setSelectedMemo(memo)
-  }
+  const handleSelectMemo = (id: string) => {
+    const memo = memos.find((m) => m.id === id);
+    if (memo) setSelectedMemo(memo);
+  };
 
-  const handleSaveMemo = ({ id, title, content, category }) => {
-    const isEdit = Boolean(id);
+  const handleSaveMemo = (savedMemo: Memo) => {
+    const isEdit = memos.some((m) => m.id === savedMemo.id);
 
-    if (id) {
+    if (isEdit) {
       setMemos((prev) =>
-        prev.map((memo) =>
-          memo.id === id ? { ...memo, title, content, category } : memo
-        )
-      )
+        prev.map((memo) => (memo.id === savedMemo.id ? savedMemo : memo))
+      );
     } else {
-      const now = new Date()
-      const formattedDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`
-
-      const newMemo = {
-        id: Date.now(),
-        title,
-        content,
-        category,
-        createdAt: formattedDate,
-        isFavorite: false,
-      }
-      setMemos((prev) => [newMemo, ...prev])
+      setMemos((prev) => [savedMemo, ...prev]);
     }
     
     setEditingMemo(null);
@@ -90,11 +89,11 @@ export default function App() {
       description: '메모 리스트에서 확인하실 수 있습니다.',
       confirmText: '확인',
       type: 'alert',
-      onConfirm: () => setPopupConfig(null) 
+      onConfirm: () => setPopupConfig(null),
     });
-  }
+  };
 
-  const handleDeleteMemoRequest = (id) => {
+  const handleDeleteMemoRequest = (id: string) => {
     setPopupConfig({
       title: '메모를 삭제 하시겠습니까?',
       description: '삭제된 메모는 휴지통에서 확인 가능합니다.',
@@ -102,11 +101,11 @@ export default function App() {
       cancelText: '취소',
       type: 'confirm',
       onConfirm: () => executeDelete(id), 
-      onCancel: () => setPopupConfig(null) 
+      onCancel: () => setPopupConfig(null),
     });
-  }
+  };
 
-  const executeDelete = (id) => {
+  const executeDelete = (id: string) => {
     setMemos((prev) => prev.filter((memo) => memo.id !== id));
     setSelectedMemo(null); 
 
@@ -115,17 +114,17 @@ export default function App() {
       description: '삭제된 메모는 휴지통에서 확인 가능합니다.',
       confirmText: '확인',
       type: 'alert',
-      onConfirm: () => setPopupConfig(null) 
+      onConfirm: () => setPopupConfig(null),
     });
-  }
+  };
 
-  const handleToggleFavorite = (id) => {
+  const handleToggleFavorite = (id: string) => {
     setMemos((prevMemos) =>
       prevMemos.map((memo) =>
         memo.id === id ? { ...memo, isFavorite: !memo.isFavorite } : memo
       )
-    )
-  }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -157,7 +156,7 @@ export default function App() {
 
       <MemoEditModal
         isOpen={!!editingMemo}
-        memo={editingMemo}
+        memo={editingMemo as Memo}
         onClose={() => setEditingMemo(null)}
         onSave={handleSaveMemo}
       />
@@ -175,5 +174,5 @@ export default function App() {
         />
       )}
     </div>
-  )
+  );
 }

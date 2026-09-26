@@ -1,5 +1,15 @@
 import React, { useEffect } from 'react';
 
+interface ModalPopupProps { 
+  isOpen: boolean; 
+  title: string; 
+  description?: string; 
+  confirmText?: string; 
+  cancelText?: string; 
+  onConfirm: () => void; 
+  onCancel?: () => void; 
+  type?: 'confirm' | 'alert'; 
+}
 export default function ModalPopup({
   isOpen,
   title,
@@ -9,9 +19,10 @@ export default function ModalPopup({
   onConfirm,
   onCancel,
   type = 'confirm',
-}) {
+}: ModalPopupProps) 
+{
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (type === 'confirm' && onCancel) onCancel();
         else if (onConfirm) onConfirm();
@@ -45,7 +56,7 @@ export default function ModalPopup({
         </h3>
 
         {description && (
-          <p className="text-xs text-[485668]font-normal mb-6">
+          <p className="text-xs text-[#485668]font-normal mb-6">
             {description}
           </p>
         )}

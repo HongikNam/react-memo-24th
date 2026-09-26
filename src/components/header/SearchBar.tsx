@@ -56,7 +56,7 @@ export default function SearchBar({
         <button
           type="button"
           onClick={() => setIsDropdownOpen((prev) => !prev)}
-          className="flex items-center gap-1.5 bg-blue-01 hover:bg-blue-200 text-blue-900 font-bold text-xs px-3 py-2 rounded-full transition-colors shrink-0 mr-2"
+          className="flex items-center gap-1.5 bg-blue-01 hover:bg-blue-200 text-blue-06 font-bold text-xs px-3 py-2 rounded-full transition-colors shrink-0 mr-2"
         >
           <span>{selectedTag ?? '태그 선택'}</span>
           <span className="text-[10px]">▶</span>

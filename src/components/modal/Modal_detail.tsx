@@ -3,16 +3,32 @@ import Button from '../header/Button';
 import editBtn from '../../assets/icons/edit_w.svg';
 import deleteBtn from '../../assets/icons/delete_w.svg';
 import trashBtn from '../../assets/icons/trash_w.svg';
+import type { Memo, Tag } from '../../types/memo';
 
-const TAG_COLORS = {
-  Daily: "bg-[#7BA7FF] text-[#7BA7FF]", 
-  Work: "bg-[#0037A3] text-[#0037A3]",
-  Others: "bg-[#A6B7CB] text-[#A6B7CB]",
+interface MemoDetailModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  memo: Memo | null;
+  onEdit: (memo: Memo) => void;
+  onDelete: (id: string) => void;
+}
+
+const TAG_COLORS: Record<Tag, string> = {
+  Daily: "bg-blue-03 text-blue-03", 
+  Work: "bg-blue-06 text-blue-06",
+  Others: "bg-gray-02 text-gray-02",
+  전체: "bg-blue-02 text-blue-02",
 };
 
-export default function MemoDetailModal({ isOpen, onClose, memo, onEdit, onDelete }) {
+export default function MemoDetailModal({ 
+  isOpen, 
+  onClose, 
+  memo, 
+  onEdit, 
+  onDelete 
+}: MemoDetailModalProps) {
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
 
@@ -29,7 +45,8 @@ export default function MemoDetailModal({ isOpen, onClose, memo, onEdit, onDelet
 
   if (!isOpen || !memo) return null;
 
-  const currentStyle = TAG_COLORS[memo.category] || TAG_COLORS.Daily;
+  const category = memo.category ?? 'Daily';
+  const currentStyle = TAG_COLORS[category] || TAG_COLORS.Daily;
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
@@ -44,7 +61,7 @@ export default function MemoDetailModal({ isOpen, onClose, memo, onEdit, onDelet
           onClick={onClose}
           className="absolute top-5 right-5 text-white/80 hover:text-white text-xl font-bold"
         >
-          <img src={deleteBtn} alt='delete-btn'/>
+          <img src={deleteBtn} alt="delete-btn" />
         </button>
 
         <div>
@@ -52,7 +69,7 @@ export default function MemoDetailModal({ isOpen, onClose, memo, onEdit, onDelet
 
           <div className="flex items-center gap-3 mb-6 text-sm font-semibold">
             <span className={`bg-white ${currentStyle} px-4 py-1 rounded-full shadow-sm`}>
-              {memo.category}
+              {category}
             </span>
             <span className="flex items-center text-3xl">|</span>
             <span className="text-white/90">{memo.createdAt}</span>
@@ -73,7 +90,7 @@ export default function MemoDetailModal({ isOpen, onClose, memo, onEdit, onDelet
             }}
             title="수정"
           >
-            <img src={editBtn} alt='edit-btn' height='80px' width='80px' />
+            <img src={editBtn} alt="edit-btn" height="80px" width="80px" />
           </Button>
 
           <Button
@@ -84,7 +101,7 @@ export default function MemoDetailModal({ isOpen, onClose, memo, onEdit, onDelet
             }}
             title="삭제"
           >
-            <img src={trashBtn} alt='trash-btn' height='80px' width='80px' />
+            <img src={trashBtn} alt="trash-btn" height="80px" width="80px" />
           </Button>
         </div>
       </div>

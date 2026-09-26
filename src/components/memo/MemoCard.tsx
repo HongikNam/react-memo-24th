@@ -1,10 +1,17 @@
 import React from 'react';
+import type { Tag } from '../../types/memo'; 
+import type { Memo } from '../../types/memo';
 
+export interface MemoCardProps extends Omit<Memo, 'id'> {
+  onFavoriteToggle?: () => void;
+  onClick?: () => void;
+}
 
-const TAG_COLORS = {
-  Daily: "bg-[#7BA7FF] text-white",
-  Work: "bg-[#0037A3] text-white",
-  Others: "bg-[#A6B7CB] text-white",
+const TAG_COLORS: Record<Tag, string> = {
+  Daily: "bg-blue-03 text-white",
+  Work: "bg-blue-06 text-white",
+  Others: "bg-gray-02 text-white",
+  전체: "bg-blue-02 text-white",
 };
 
 export default function MemoCard({
@@ -15,7 +22,7 @@ export default function MemoCard({
   isFavorite = false,
   onFavoriteToggle,
   onClick
-}) {
+}: MemoCardProps) {
   const cardStyle = TAG_COLORS[category] || "bg-blue-500 text-white";
 
   return (
@@ -29,9 +36,9 @@ export default function MemoCard({
 
           <button
             type="button"
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation();
-              onFavoriteToggle && onFavoriteToggle();
+              onFavoriteToggle?.();
             }}
             className="p-1 hover:opacity-80 transition-opacity"
           >

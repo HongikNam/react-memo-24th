@@ -1,13 +1,21 @@
 import React from 'react';
 import MemoCard from './MemoCard';
 import SearchIcon from '../../assets/icons/search_b.svg';
+import type { Memo } from '../../types/memo';
+
+interface MemolistProps{
+  memoList : Memo[];
+  searchQuery : string;
+  onSelectMemo : (id: string) => void;
+  onToggleFavorite : (id: string) => void;
+}
 
 export default function MemoList({ 
   memoList = [], 
   searchQuery = '', 
   onSelectMemo, 
   onToggleFavorite 
-}) {
+}:MemolistProps) {
 
   if (memoList.length === 0) {
     if (searchQuery.trim() !== '') {

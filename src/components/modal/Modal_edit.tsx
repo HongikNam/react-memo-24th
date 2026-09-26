@@ -1,25 +1,37 @@
 import React, { useEffect, useState, useRef } from 'react';
+import type { Memo, Tag } from '../../types/memo';
 
-const TAG_COLORS = {
-  Daily: "bg-[#7BA7FF] text-[#7BA7FF]" ,
-  Work: "bg-[#0037A3] text-[#0037A3]",
-  Others: "bg-[#A6B7CB] text-[#A6B7CB]",
-};
+const TAG_COLORS: Record<Exclude<Tag, '전체'>, string> = 
+  {  
+    Daily: "bg-blue-03 text-blue-03", 
+    Work: "bg-blue-06 text-blue-06",
+    Others: "bg-gray-02 text-gray-02",
+  }; 
 
-const CATEGORIES = ['Daily', 'Work', 'Others'];
+  const CATEGORIES: Exclude<Tag, '전체'>[] = [
+    'Daily',
+    'Work', 
+    'Others', 
+  ];
+  interface MemoEditModalProps { 
+    isOpen: boolean; 
+    onClose: () => void; 
+    onSave: (memo: Memo) => void; 
+    memo?: Memo | null; 
+  }
 
-export default function MemoEditModal({ isOpen, onClose, onSave, memo }) {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('Daily');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+export default function MemoEditModal({ isOpen, onClose, onSave, memo }: MemoEditModalProps) {
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [category, setCategory] = useState<Exclude<Tag, '전체'>>('Daily');
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (memo && memo.id) {
       setTitle(memo.title || '');
       setContent(memo.content || '');
-      setCategory(memo.category || 'Daily');
+      setCategory(memo.category === '전체' ? 'Daily' : memo.category);
     } else {
       setTitle('');
       setContent('');
@@ -28,14 +40,15 @@ export default function MemoEditModal({ isOpen, onClose, onSave, memo }) {
   }, [memo, isOpen]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
 
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsDropdownOpen(false);
-      }
+    const handleClickOutside = (e: MouseEvent) => {
+      if ( dropdownRef.current && 
+        !dropdownRef.current.contains(e.target as Node) 
+      ) { 
+        setIsDropdownOpen(false); } 
     };
 
     if (isOpen) {
@@ -53,17 +66,26 @@ export default function MemoEditModal({ isOpen, onClose, onSave, memo }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) return;
-
-    onSave({ ...memo, title, content, category });
-    onClose();
+    const savedMemo: Memo = {
+      id: memo?.id ?? crypto.randomUUID(), 
+      title: title.trim(), 
+      content: content.trim(), 
+      category, 
+      createdAt: memo?.createdAt ?? new Date().toISOString(), 
+      isFavorite: memo?.isFavorite ?? false, 
+    }; 
+    onSave(savedMemo); 
+    onClose(); 
   };
 
   const isEditMode = Boolean(memo && memo.id);
-  const currentBgClass = TAG_COLORS[category] || "bg-[#7BA7FF]";
-  const currentDate = memo?.createdAt || '2026.09.15';
+  const currentBgClass = TAG_COLORS[category];
+  const currentDate = memo?.createdAt
+    ? memo.createdAt
+    : new Date().toISOString().slice(0, 10).replaceAll('-', '.');
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
