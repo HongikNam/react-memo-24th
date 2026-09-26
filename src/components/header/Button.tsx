@@ -1,27 +1,34 @@
 import React from 'react';
 
+type ButtonSize = 'scb' | 'md';
+
+interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  size?: ButtonSize;
+}
+
+const SIZES: Record<ButtonSize, string> = {
+  scb: "h-20 w-20 flex items-center justify-center", 
+  md: "h-8 w-8 flex items-center justify-center",   
+};
+
+const BASE_STYLE = "bg-transparent transition-transform active:scale-95";
+
 export default function Button({
   children,
   size = 'scb',        
   disabled = false,
   className = '', 
   ...props
-}) {
-  const sizes = {
-    scb: "h-20 w-20 flex items-center justify-center", 
-    md: "h-8 w-8 flex items-center justify-center",   
-  };
-  const baseStyle = "bg-transparent transition-transform active:scale-95";
+}: ButtonProps) {
   return (
     <button
       disabled={disabled}
-      className={`${baseStyle} ${sizes[size]} ${className}`}
+      className={`${BASE_STYLE} ${SIZES[size]} ${className}`}
       {...props}
     >
       {children}
     </button>
   );
 }
-
 
 

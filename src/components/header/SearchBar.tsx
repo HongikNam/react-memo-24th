@@ -87,7 +87,7 @@ export default function SearchBar({
         onChange={onChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="flex-1 bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none px-2"
+        className="flex-1 bg-transparent text-sm text-gray-02 placeholder-gray-400 outline-none px-2"
       />
 
       <Button size="scb" onClick={onSearch} className="font-bold">
