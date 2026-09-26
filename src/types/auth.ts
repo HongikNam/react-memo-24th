@@ -1,24 +1,34 @@
-
 export interface User {
-    username: string;
-    nickname: string;
+  email: string;
+  nickname?: string;
 }
 
 export interface LoginRequest {
-    username: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
-export interface AuthResponse {
-    token: string;
-    user: User;
+export interface LoginResponse {
+  token: string;
+  user: User;
+}
+
+export interface SignupRequest {
+  email: string;
+  password: string;
+  nickname?: string;
+}
+
+export interface SignupResponse {
+  message?: string;
+  user?: User;
 }
 
 export interface AuthState {
-    user: User | null;
-    token : string | null;
-    isAuthenticated: boolean;
-    setAuth: (user: User, token: string) => void;
-    logout: () => void;
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  login: (email: string) => void; // 더미용
+  setAuth: (user: User, token: string) => void; // 실제 API 연동용
+  logout: () => void;
 }
-

@@ -36,13 +36,14 @@ export default function MemoCard({
 
           <button
             type="button"
+            aria-label = "favorite button"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation();
               onFavoriteToggle?.();
             }}
             className="p-1 hover:opacity-80 transition-opacity"
           >
-            <span className={isFavorite ? 'text-[#FF5656]' : 'text-white/40'}>★</span>
+            <span className={isFavorite ? 'text-alert-01' : 'text-white/40'}>★</span>
           </button>
         </div>
 
