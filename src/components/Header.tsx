@@ -1,4 +1,3 @@
-import React from 'react';
 import SearchBar from './header/SearchBar';
 import Button from './header/Button';
 import Profile from '../assets/icons/Profile.svg';

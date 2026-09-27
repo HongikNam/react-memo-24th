@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Button from '../header/Button';
 import editBtn from '../../assets/icons/edit_w.svg';
 import deleteBtn from '../../assets/icons/delete_w.svg';

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface ModalPopupProps { 
   isOpen: boolean; 
@@ -67,7 +67,7 @@ export default function ModalPopup({
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 py-3 rounded-xl bg-gray-01 text-gray-03 font-bold text-sm"
+              className="flex-1 py-3 rounded-xl bg-gray-01text-gray-03 font-bold text-sm"
             >
               {cancelText}
             </button>

@@ -1,4 +1,3 @@
-import React from 'react';
 import MemoCard from './MemoCard';
 import SearchIcon from '../../assets/icons/search_b.svg';
 import type { Memo } from '../../types/memo';

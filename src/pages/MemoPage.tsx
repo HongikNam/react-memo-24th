@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import MemoGrid from '../components/memo/MemoGrid';
 import MemoDetailModal from '../components/modal/Modal_detail'; 
