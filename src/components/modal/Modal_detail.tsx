@@ -13,11 +13,17 @@ interface MemoDetailModalProps {
   onDelete: (id: string) => void;
 }
 
-const TAG_COLORS: Record<Tag, string> = {
-  Daily: "bg-blue-03 text-blue-03", 
-  Work: "bg-blue-06 text-blue-06",
-  Others: "bg-gray-02 text-gray-02",
-  전체: "bg-blue-02 text-blue-02",
+const BACKGROUNDCOLOR: Record<Tag, string> = {
+  Daily: "bg-blue-03",
+  Work: "bg-blue-06",
+  Others: "bg-gray-03",
+  전체: "bg-blue-02",
+};
+const TEXTCOLOR: Record<Tag, string> = {
+  Daily: "text-blue-03",
+  Work: "text-blue-06",
+  Others: "text-gray-03",
+  전체: "text-blue-02",
 };
 
 export default function MemoDetailModal({ 
@@ -46,7 +52,8 @@ export default function MemoDetailModal({
   if (!isOpen || !memo) return null;
 
   const category = memo.category ?? 'Daily';
-  const currentStyle = TAG_COLORS[category] || TAG_COLORS.Daily;
+  const currentbgStyle = BACKGROUNDCOLOR[category] || BACKGROUNDCOLOR.Daily;
+  const currenttextStyle = TEXTCOLOR[category];
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
@@ -55,7 +62,7 @@ export default function MemoDetailModal({
         onClick={onClose}
       />
 
-      <div className={`relative w-full max-w-md rounded-3xl ${currentStyle} p-6 text-white shadow-2xl flex flex-col justify-between min-h-[380px]`}>
+      <div className={`relative w-full max-w-md rounded-3xl ${currentbgStyle} p-6 text-white shadow-2xl flex flex-col justify-between min-h-[380px]`}>
         <button
           type="button"
           onClick={onClose}
@@ -68,7 +75,7 @@ export default function MemoDetailModal({
           <h2 className="text-2xl font-bold mb-4 pr-8">{memo.title}</h2>
 
           <div className="flex items-center gap-3 mb-6 text-sm font-semibold">
-            <span className={`bg-white ${currentStyle} px-4 py-1 rounded-full shadow-sm`}>
+            <span className={`bg-white ${currenttextStyle} px-4 py-1 rounded-full shadow-sm`}>
               {category}
             </span>
             <span className="flex items-center text-3xl">|</span>

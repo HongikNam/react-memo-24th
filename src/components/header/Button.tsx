@@ -23,7 +23,7 @@ export default function Button({
   return (
     <button
       disabled={disabled}
-      className={`${BASE_STYLE} ${SIZES[size]} ${className}`}
+      className={`${BASE_STYLE} ${SIZES[size]} ${className} cursor-pointer`}
       {...props}
     >
       {children}

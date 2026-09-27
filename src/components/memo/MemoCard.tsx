@@ -10,7 +10,7 @@ export interface MemoCardProps extends Omit<Memo, 'id'> {
 const TAG_COLORS: Record<Tag, string> = {
   Daily: "bg-blue-03 text-white",
   Work: "bg-blue-06 text-white",
-  Others: "bg-gray-02 text-white",
+  Others: "bg-gray-03 text-white",
   전체: "bg-blue-02 text-white",
 };
 
