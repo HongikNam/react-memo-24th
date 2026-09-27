@@ -123,7 +123,7 @@ export default function MemoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Header 
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -133,7 +133,7 @@ export default function MemoPage() {
         onProfileClick={logout} 
       />
 
-      <main className="w-full px-[120px] py-4 bg-[#EBF2FF] flex-1 flex flex-col">
+      <main className="w-full px-[120px] py-4 bg-blue-01 flex-1 flex flex-col">
         <MemoGrid 
           memoList={filteredMemos} 
           searchQuery={searchQuery}

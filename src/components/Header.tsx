@@ -23,40 +23,38 @@ export default function Header({
   onProfileClick,
 }: HeaderProps) {
   return (
-    <header className="flex items-center gap-3 bg-[#EBF2FF] px-[120px] py-4 w-full">
+    <header className="flex items-center gap-2 sm:gap-3 bg-blue-01 px-4 md:px-12 lg:px-[120px] py-3 sm:py-4 w-full">
       <SearchBar
         selectedTag={selectedTag}
         onSelectTag={onTagChange}
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
-        onSearch={() => {}}
-        className="flex-1"
+        onSearch={() => {}} // 후에 엔터키를 눌러야 렌더링 되게 바꾸고 싶을 때 적용
+        className="flex-1 min-w-0" 
       />
 
       <Button
-        size="scb"
-        className="bg-white shadow-sm hover:bg-gray-50 shrink-0 font-bold rounded-full"
+        size="scb" 
+        className="bg-white shadow-sm hover:bg-gray-50 shrink-0 font-bold rounded-full p-2 sm:p-2.5"
         onClick={onAddMemo}
       >
         <img
           src={addBtn}
-          alt="add memo"
-          height="80"
-          width="80"
+          alt="addmemo"
+          className="w-6 h-6 sm:w-8 sm:h-8"
         />
       </Button>
 
       <Button
         size="scb"
-        className="bg-white shadow-sm hover:bg-gray-50 shrink-0 font-bold rounded-full"
+        className="bg-white shadow-sm hover:bg-gray-50 shrink-0 font-bold rounded-full p-2 sm:p-2.5"
         onClick={onProfileClick}
         disabled 
       >
         <img
           src={Profile}
           alt="profile"
-          height="40"
-          width="40"
+          className="w-6 h-6 sm:w-8 sm:h-8" 
         />
       </Button>
     </header>

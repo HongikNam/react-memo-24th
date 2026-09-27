@@ -51,12 +51,12 @@ export default function ModalPopup({
 
       <div className="relative z-10 w-full max-w-[360px] bg-white rounded-[24px] p-6 shadow-2xl flex flex-col items-center text-center">
         
-        <h3 className="text-lg font-bold text-[#001B51] mb-2">
+        <h3 className="text-lg font-bold text-blue-07 mb-2">
           {title}
         </h3>
 
         {description && (
-          <p className="text-xs text-[#485668]font-normal mb-6">
+          <p className="text-xs text-gray-04 font-normal mb-6">
             {description}
           </p>
         )}
@@ -67,14 +67,14 @@ export default function ModalPopup({
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 py-3 rounded-xl bg-[#E0E2E5] text-[#677B93] font-bold text-sm hover:bg-gray-200 "
+              className="flex-1 py-3 rounded-xl bg-gray-01 text-gray-03 font-bold text-sm"
             >
               {cancelText}
             </button>
             <button
               type="button"
               onClick={onConfirm}
-              className="flex-1 py-3 rounded-xl bg-[#1B56FD] text-white font-bold text-sm hover:bg-[#0055F5] shadow-sm"
+              className="flex-1 py-3 rounded-xl bg-blue-05 text-white font-bold text-sm shadow-sm"
             >
               {confirmText}
             </button>
@@ -83,7 +83,7 @@ export default function ModalPopup({
           <button
             type="button"
             onClick={onConfirm}
-            className="w-full py-3 rounded-xl bg-[#1B56FD] text-white font-bold text-sm hover:bg-[#0055F5] shadow-sm"
+            className="w-full py-3 rounded-xl bg-blue-05 text-white font-bold text-sm shadow-sm"
           >
             {confirmText}
           </button>

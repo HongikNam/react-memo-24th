@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { Memo, Tag } from '../../types/memo';
-import { getFormattedDate } from '../utility/formatDate'; // 유틸 함수 불러오기
+import { getFormattedDate } from '../utility/formatDate'; 
 
 const TAG_COLORS: Record<Exclude<Tag, '전체'>, string> = 
   {  
@@ -110,7 +110,7 @@ export default function MemoEditModal({ isOpen, onClose, onSave, memo }: MemoEdi
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
-                className={`inline-flex items-center bg-white ${currentBgClass} rounded-full px-4 py-1.5 shadow-sm text-[#7BA7FF] font-bold text-xs hover:bg-gray-50`}
+                className={`inline-flex items-center bg-white ${currentBgClass} rounded-full px-4 py-1.5 shadow-sm font-bold text-xs hover:bg-gray-50`}
               >
                 <span>{category}</span>
                 <span className="ml-1 text-[10px]">
@@ -129,7 +129,7 @@ export default function MemoEditModal({ isOpen, onClose, onSave, memo }: MemoEdi
                         setIsDropdownOpen(false);
                       }}
                       className={`w-full text-left px-4 py-2 text-xs font-bold transition-colors flex items-center justify-between ${
-                        category === cat ? 'text-[#1B56FD] bg-blue-50/50' : 'text-gray-600 hover:bg-gray-100'
+                        category === cat ? 'text-[#1B4EF5] bg-blue-50/50' : 'text-gray-600 hover:bg-gray-100'
                       }`}
                     >
                       <span>{cat}</span>

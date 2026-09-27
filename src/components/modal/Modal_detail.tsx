@@ -90,7 +90,7 @@ export default function MemoDetailModal({
             }}
             title="수정"
           >
-            <img src={editBtn} alt="edit-btn" height="80px" width="80px" />
+            <img src={editBtn} aria-label="수정" alt="edit-btn" height="80px" width="80px" />
           </Button>
 
           <Button
@@ -101,7 +101,7 @@ export default function MemoDetailModal({
             }}
             title="삭제"
           >
-            <img src={trashBtn} alt="trash-btn" height="80px" width="80px" />
+            <img src={trashBtn} aria-label="삭제" alt="trash-btn" height="80px" width="80px" />
           </Button>
         </div>
       </div>

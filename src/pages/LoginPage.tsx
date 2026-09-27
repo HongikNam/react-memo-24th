@@ -41,13 +41,13 @@ export default function LoginPage() {
             setError('');
 
             if (email === MOCK_ACCOUNT.email && password === MOCK_ACCOUNT.password) {
-                setAuth(MOCK_ACCOUNT.accessToken, MOCK_ACCOUNT.email);
+                setAuth(MOCK_ACCOUNT.email, MOCK_ACCOUNT.accessToken);
                 navigate('/');
                 return;
             }
 
             const response = await authApi.login({ email, password });
-            setAuth(response.accessToken, email);
+            setAuth(email, response.accessToken);
             navigate('/');
         } catch (err: any) {
             if (err.message?.includes('fetch') || err.message?.includes('통신') || !window.navigator.onLine) {

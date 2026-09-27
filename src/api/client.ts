@@ -28,15 +28,13 @@ export async function client<T>(
       headers,
     });
 
-    // 🚨 [핵심 수정 위치] 401 Unauthorized 처리
+    // 401 에러 처리
     if (response.status === 401) {
-      // 로그인이나 회원가입 요청 시 발생한 401/인증 실패는 강제 리다이렉트를 하지 않고 에러 메시지만 던집니다.
       if (endpoint.includes('/auth/') || endpoint.includes('/login')) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || errorData.error || '*아이디(이메일) 또는 비밀번호가 일치하지 않습니다.');
+        throw new Error(errorData.message || '*아이디(이메일) 또는 비밀번호가 일치하지 않습니다.');
       }
 
-      // 일반 API 호출 중 토큰이 만료되었을 때만 강제 로그아웃 및 리다이렉트
       useAuthStore.getState().logout();
       window.location.href = '/login';
       throw new Error('인증이 만료되었습니다. 다시 로그인해 주세요.');
@@ -46,18 +44,13 @@ export async function client<T>(
       return {} as T;
     }
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      const errorMessage =
-        errorData.message ||
-        errorData.error ||
-        errorData.detail ||
-        `요청에 실패했습니다. (${response.status})`;
+    const resJson = await response.json();
 
-      throw new Error(errorMessage);
+    if (!response.ok || resJson.success === false) {
+      throw new Error(resJson.message || '요청에 실패했습니다.');
     }
 
-    return await response.json();
+    return resJson.data as T;
   } catch (error: any) {
     throw new Error(error.message || '서버와의 통신에 실패했습니다.');
   }
