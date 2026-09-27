@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authApi } from '../api/auth';
+import ModalPopup from '../components/modal/Modal_popup'; 
 
 export default function SignupPage() {
     const navigate = useNavigate();
@@ -9,7 +10,9 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false); 
+    const [isLoading, setIsLoading] = useState(false);
+    
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
     const isFormValid =
         email.trim() !== '' &&
@@ -19,18 +22,8 @@ export default function SignupPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!email.trim()) {
-            setError('이메일을 입력해 주세요.');
-            return;
-        }
-
-        if (!password.trim()) {
-            setError('비밀번호를 입력해 주세요.');
-            return;
-        }
-
-        if (!confirmPassword.trim()) {
-            setError('비밀번호를 한번 더 입력해 주세요.');
+        if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+            setError('모든 필드를 입력해 주세요.');
             return;
         }
 
@@ -45,13 +38,17 @@ export default function SignupPage() {
 
             await authApi.signup({ email, password });
             
-            alert('회원가입이 완료되었습니다.');
-            navigate('/login');
+            setIsSuccessModalOpen(true);
         } catch (err: any) {
             setError(err.message || '회원가입 처리 중 오류가 발생했습니다.');
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleConfirm = () => {
+        setIsSuccessModalOpen(false);
+        navigate('/login');
     };
 
     return (
@@ -117,6 +114,15 @@ export default function SignupPage() {
                 </div>
 
             </div>
+
+            <ModalPopup
+                isOpen={isSuccessModalOpen}
+                type="alert"
+                title="회원가입 완료"
+                description="회원가입이 성공적으로 완료되었습니다. 로그인 화면으로 이동합니다."
+                confirmText="로그인하러 가기"
+                onConfirm={handleConfirm}
+            />
         </div>
     );
 }

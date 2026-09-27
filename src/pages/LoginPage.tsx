@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../stores/useAuthStore';
 import { authApi } from '../api/auth';
+import ModalPopup from '../components/modal/Modal_popup';
 
 const MOCK_ACCOUNT = {
     email: 'test@example.com',
@@ -17,25 +18,28 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    
+    const [isNetworkModalOpen, setIsNetworkModalOpen] = useState(false);
 
     const isFormValid = email.trim() !== '' && password.trim() !== '';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!email.trim()) {
-            setError('이메일을 입력해 주세요.');
+        if (!email.trim() || !password.trim()) {
+            setError('이메일과 비밀번호를 입력해 주세요.');
             return;
         }
-        if (!password.trim()) {
-            setError('비밀번호를 입력해 주세요.');
+
+        if (!navigator.onLine) {
+            setIsNetworkModalOpen(true);
             return;
         }
-       
+
         try {
             setIsLoading(true);
             setError('');
-            
+
             if (email === MOCK_ACCOUNT.email && password === MOCK_ACCOUNT.password) {
                 setAuth(MOCK_ACCOUNT.accessToken, MOCK_ACCOUNT.email);
                 navigate('/');
@@ -43,12 +47,14 @@ export default function LoginPage() {
             }
 
             const response = await authApi.login({ email, password });
-
-            setAuth(email, response.accessToken);
-
+            setAuth(response.accessToken, email);
             navigate('/');
         } catch (err: any) {
-            setError(err.message || '*아이디(이메일) 또는 비밀번호가 일치하지 않습니다.');
+            if (err.message?.includes('fetch') || err.message?.includes('통신') || !window.navigator.onLine) {
+                setIsNetworkModalOpen(true);
+            } else {
+                setError(err.message || '*아이디(이메일) 또는 비밀번호가 일치하지 않습니다.');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -123,6 +129,15 @@ export default function LoginPage() {
                 </div>
 
             </div>
+
+            <ModalPopup
+                isOpen={isNetworkModalOpen}
+                type="alert"
+                title="네트워크 연결이 불안정합니다"
+                description="네트워크 상태를 확인해주세요"
+                confirmText="확인"
+                onConfirm={() => setIsNetworkModalOpen(false)}
+            />
         </div>
     );
 }
