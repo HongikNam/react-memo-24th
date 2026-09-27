@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { authApi } from '../api/auth';
 
 export default function SignupPage() {
     const navigate = useNavigate();
@@ -8,13 +9,14 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false); 
 
     const isFormValid =
         email.trim() !== '' &&
         password.trim() !== '' &&
         confirmPassword.trim() !== '';
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!email.trim()) {
@@ -37,12 +39,19 @@ export default function SignupPage() {
             return;
         }
 
-        setError('');
+        try {
+            setIsLoading(true);
+            setError('');
 
-        // 실제 회원가입 API 호출 로직 작성해야함
-        alert('회원가입이 완료되었습니다.');
-        
-        navigate('/login');
+            await authApi.signup({ email, password });
+            
+            alert('회원가입이 완료되었습니다.');
+            navigate('/login');
+        } catch (err: any) {
+            setError(err.message || '회원가입 처리 중 오류가 발생했습니다.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -84,19 +93,19 @@ export default function SignupPage() {
                     <button
                         type="submit"
                         aria-label="회원가입 버튼"
-                        disabled={!isFormValid}
+                        disabled={!isFormValid || isLoading}
                         className={`
                             w-full h-14 text-white font-semibold text-base rounded-2xl
                             transition-all shadow-sm flex items-center justify-center
                             mt-1
                             ${
-                                isFormValid
-                                    ? 'bg-blue-05'
-                                    : 'bg-blue-03'
+                                isFormValid && !isLoading
+                                    ? 'bg-blue-05 cursor-pointer hover:bg-[#002B80]'
+                                    : 'bg-blue-03 cursor-not-allowed'
                             }
                         `}
                     >
-                        회원가입
+                        {isLoading ? '처리 중...' : '회원가입'}
                     </button>
                 </form>
 

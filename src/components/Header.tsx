@@ -50,6 +50,7 @@ export default function Header({
         size="scb"
         className="bg-white shadow-sm hover:bg-gray-50 shrink-0 font-bold rounded-full"
         onClick={onProfileClick}
+        disabled 
       >
         <img
           src={Profile}
