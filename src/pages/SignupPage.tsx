@@ -28,7 +28,7 @@ export default function SignupPage() {
         }
 
         if (password !== confirmPassword) {
-            setError('*비밀번호가 일치하지 않습니다.');
+            setError('* 비밀번호가 일치하지 않습니다.');
             return;
         }
 

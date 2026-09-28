@@ -32,7 +32,7 @@ export async function client<T>(
     if (response.status === 401) {
       if (endpoint.includes('/auth/') || endpoint.includes('/login')) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || '*아이디(이메일) 또는 비밀번호가 일치하지 않습니다.');
+        throw new Error(errorData.message || '아이디(이메일) 또는 비밀번호가 일치하지 않습니다.');
       }
 
       useAuthStore.getState().logout();

@@ -48,7 +48,6 @@ export default function Header({
         size="scb"
         className="bg-white shadow-sm hover:bg-gray-50 shrink-0 font-bold rounded-full p-2 sm:p-2.5"
         onClick={onProfileClick}
-        disabled 
       >
         <img
           src={Profile}
